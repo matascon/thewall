@@ -1,16 +1,22 @@
 import "./App.css";
-import type { ReactNode } from "react";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Login, Register } from "./components/pages";
 
-interface SaludoProps {
-  children: ReactNode;
-}
-
-const Saludo = ({ children }: SaludoProps) => {
-  return <h1>{children}</h1>;
+const InitApp = () => {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route />
+        <Route path="/Register" element={<Register />} />
+        <Route />
+      </Routes>
+    </BrowserRouter>
+  );
 };
 
 function App() {
-  return <Saludo>REACT HELLO</Saludo>;
+  return <InitApp />;
 }
 
 export default App;
