@@ -1,7 +1,11 @@
-import styles from "./title.module.css";
+import styles from "./Title.module.css";
 
 const Title = () => {
-  return <h1 className={styles.title}>TheWall</h1>;
+  return (
+    <div className={styles.title}>
+      <h1 className={styles.titleH1}>TheWall</h1>
+    </div>
+  );
 };
 
 export default Title;

@@ -1,0 +1,12 @@
+.title {
+  height: auto;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.titleH1 {
+  font-size: 3rem;
+  color: #e76262;
+}

@@ -5,6 +5,7 @@
 
   color: #fff;
   background-color: #000011;
+  font-size: 16px;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -19,8 +20,8 @@
 }
 
 html {
-  height: auto;
-  width: auto;
+  height: 100%;
+  width: 100%;
 }
 
 body {
