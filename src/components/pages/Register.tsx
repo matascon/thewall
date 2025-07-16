@@ -3,6 +3,7 @@ import stylesForm from "./Form.module.css";
 import { NavLink } from "react-router-dom";
 import { Title } from "../title";
 import { useState } from "react";
+import useFetch from "../hooks/useFetch";
 
 interface RegisterData {
   userName: string;
@@ -16,20 +17,52 @@ const Register = () => {
     email: "",
     passwd: "",
   });
-
   const [errorForm, setErrorForm] = useState<string | null>(null);
+  const [successForm, setSuccessForm] = useState<string | null>(null);
+  const { data, loading, error, fetchApi } = useFetch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setRegisterData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (registerData.userName && registerData.email && registerData.passwd) {
-      console.log("Todo correcto");
       setErrorForm(null);
+      const userNameToValidate = {
+        userName: registerData.userName,
+      };
+      const result = await fetchApi(
+        "http://localhost:8079/api/user/validateUser",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userNameToValidate),
+        }
+      );
+      if (!result) {
+        const userToRegister = {
+          userName: registerData.userName,
+          email: registerData.email,
+          passwd: registerData.passwd,
+        };
+        const result = await fetchApi("http://localhost:8079/api/user/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userToRegister),
+        });
+        if (result) {
+          setSuccessForm("The user has been registered successfully");
+        }
+      } else {
+        setErrorForm("That user name is being used");
+      }
     } else {
       setErrorForm("All fields are required");
     }
@@ -83,6 +116,9 @@ const Register = () => {
         </form>
         {errorForm && (
           <p className={stylesRegister.registerError}>{errorForm}</p>
+        )}
+        {successForm && (
+          <p className={stylesRegister.registerSuccess}>{errorForm}</p>
         )}
         <NavLink to="/" className={stylesRegister.registerNavLink}>
           If you are registered access to TheWall
