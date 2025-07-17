@@ -78,24 +78,28 @@ const Register = () => {
     if (registerData.userName && registerData.email && registerData.passwd) {
       setErrorForm(null);
       const userExist = await validateUser(fetchApi, registerData.userName);
-      if (!userExist) {
-        const registerResult = await registerUser(fetchApi, registerData);
-        if (registerResult) {
-          setSuccessForm("The user has been registered successfully");
-          setRegisterData({
-            userName: "",
-            email: "",
-            passwd: "",
-          });
-          setTimeout(() => {
-            setRedirect(true);
-          }, 2000);
-        } else {
-          setErrorForm("There was a problem to register the user");
-        }
+      if (error) {
+        setErrorForm("There was a problem to register the user, try later");
       } else {
-        successForm && setSuccessForm(null);
-        setErrorForm("That user name is being used");
+        if (!userExist) {
+          const registerResult = await registerUser(fetchApi, registerData);
+          if (registerResult) {
+            setSuccessForm("The user has been registered successfully");
+            setRegisterData({
+              userName: "",
+              email: "",
+              passwd: "",
+            });
+            setTimeout(() => {
+              setRedirect(true);
+            }, 2000);
+          } else {
+            setErrorForm("There was a problem to register the user, try later");
+          }
+        } else {
+          successForm && setSuccessForm(null);
+          setErrorForm("That user name is being used");
+        }
       }
     } else {
       successForm && setSuccessForm(null);

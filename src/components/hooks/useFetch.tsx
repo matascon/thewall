@@ -6,34 +6,34 @@ type FetchApi = <T>(
   fetchOptions?: FetchOptions<T>
 ) => Promise<T | void>;
 
-interface TypeReturn<T> {
+interface TypeReturn {
   loading: boolean;
-  error: string | null;
+  error: boolean;
   fetchApi: FetchApi;
 }
 
-const useFetch = <T,>(): TypeReturn<T> => {
+const useFetch = (): TypeReturn => {
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<boolean>(false);
 
   const fetchApi: FetchApi = async <T,>(
     url: string,
     fetchOptions?: FetchOptions<T>
   ) => {
     setLoading(true);
-    setError(null);
+    setError(false);
 
     try {
       const response = await fetch(url, fetchOptions);
       if (!response.ok) {
-        setError("Error to response API");
+        setError(true);
         throw new Error(`${response.status}: ${response.statusText}`);
       }
 
       const dataJSON = await response.json();
       return dataJSON;
     } catch (e) {
-      setError("There is an issue with API petition");
+      setError(true);
       console.log(e);
     } finally {
       setLoading(false);
