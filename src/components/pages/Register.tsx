@@ -1,6 +1,6 @@
 import stylesRegister from "./Register.module.css";
 import stylesForm from "./Form.module.css";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import { Title } from "../title";
 import { useState } from "react";
 import useFetch from "../hooks/useFetch";
@@ -11,6 +11,51 @@ interface RegisterData {
   passwd: string;
 }
 
+type ValidateUser = (fetchApi: FetchApi, userName: string) => Promise<boolean>;
+type RegisterUser = (
+  fetchApi: FetchApi,
+  registerData: RegisterData
+) => Promise<boolean>;
+type FetchOptions<T> = RequestInit & { body?: T };
+type FetchApi = <T>(
+  url: string,
+  fetchOptions?: FetchOptions<T>
+) => Promise<T | void>;
+
+const validateUser: ValidateUser = async (fetchApi, userName) => {
+  const userNameToValidate = {
+    userName: userName,
+  };
+
+  const result = await fetchApi("http://localhost:8079/api/user/validateUser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userNameToValidate),
+  });
+
+  return result ? true : false;
+};
+
+const registerUser: RegisterUser = async (fetchApi, registerData) => {
+  const userToRegister = {
+    userName: registerData.userName,
+    email: registerData.email,
+    passwd: registerData.passwd,
+  };
+
+  const result = await fetchApi("http://localhost:8079/api/user/registerUser", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userToRegister),
+  });
+
+  return result ? true : false;
+};
+
 const Register = () => {
   const [registerData, setRegisterData] = useState<RegisterData>({
     userName: "",
@@ -19,7 +64,8 @@ const Register = () => {
   });
   const [errorForm, setErrorForm] = useState<string | null>(null);
   const [successForm, setSuccessForm] = useState<string | null>(null);
-  const { data, loading, error, fetchApi } = useFetch();
+  const [redirect, setRedirect] = useState<boolean>(false);
+  const { loading, error, fetchApi } = useFetch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,39 +77,28 @@ const Register = () => {
 
     if (registerData.userName && registerData.email && registerData.passwd) {
       setErrorForm(null);
-      const userNameToValidate = {
-        userName: registerData.userName,
-      };
-      const result = await fetchApi(
-        "http://localhost:8079/api/user/validateUser",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userNameToValidate),
-        }
-      );
-      if (!result) {
-        const userToRegister = {
-          userName: registerData.userName,
-          email: registerData.email,
-          passwd: registerData.passwd,
-        };
-        const result = await fetchApi("http://localhost:8079/api/user/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userToRegister),
-        });
-        if (result) {
+      const userExist = await validateUser(fetchApi, registerData.userName);
+      if (!userExist) {
+        const registerResult = await registerUser(fetchApi, registerData);
+        if (registerResult) {
           setSuccessForm("The user has been registered successfully");
+          setRegisterData({
+            userName: "",
+            email: "",
+            passwd: "",
+          });
+          setTimeout(() => {
+            setRedirect(true);
+          }, 2000);
+        } else {
+          setErrorForm("There was a problem to register the user");
         }
       } else {
+        successForm && setSuccessForm(null);
         setErrorForm("That user name is being used");
       }
     } else {
+      successForm && setSuccessForm(null);
       setErrorForm("All fields are required");
     }
   };
@@ -86,6 +121,7 @@ const Register = () => {
             id="userName"
             name="userName"
             placeholder="User Name"
+            value={registerData.userName}
             onChange={handleChange}
           />
           <label htmlFor="email" className={stylesRegister.registerFormLabel}>
@@ -97,6 +133,7 @@ const Register = () => {
             id="email"
             name="email"
             placeholder="Email"
+            value={registerData.email}
             onChange={handleChange}
           />
           <label htmlFor="passwd" className={stylesRegister.registerFormLabel}>
@@ -108,9 +145,14 @@ const Register = () => {
             id="passwd"
             name="passwd"
             placeholder="Password"
+            value={registerData.passwd}
             onChange={handleChange}
           />
-          <button type="submit" className={stylesRegister.registerFormButton}>
+          <button
+            type="submit"
+            className={stylesRegister.registerFormButton}
+            disabled={loading}
+          >
             Register
           </button>
         </form>
@@ -118,8 +160,9 @@ const Register = () => {
           <p className={stylesRegister.registerError}>{errorForm}</p>
         )}
         {successForm && (
-          <p className={stylesRegister.registerSuccess}>{errorForm}</p>
+          <p className={stylesRegister.registerSuccess}>{successForm}</p>
         )}
+        {redirect && <Navigate to="/" />}
         <NavLink to="/" className={stylesRegister.registerNavLink}>
           If you are registered access to TheWall
         </NavLink>

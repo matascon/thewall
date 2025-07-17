@@ -1,24 +1,25 @@
 import { useState } from "react";
 
 type FetchOptions<T> = RequestInit & { body?: T };
-type Data<T> = T | null;
+type FetchApi = <T>(
+  url: string,
+  fetchOptions?: FetchOptions<T>
+) => Promise<T | void>;
 
 interface TypeReturn<T> {
-  data: Data<T>;
   loading: boolean;
   error: string | null;
-  fetchApi: (url: string, fetchOptions?: FetchOptions<T>) => Promise<T | void>;
+  fetchApi: FetchApi;
 }
 
 const useFetch = <T,>(): TypeReturn<T> => {
-  const [data, setData] = useState<Data<T> | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchApi = async (
+  const fetchApi: FetchApi = async <T,>(
     url: string,
     fetchOptions?: FetchOptions<T>
-  ): Promise<T | void> => {
+  ) => {
     setLoading(true);
     setError(null);
 
@@ -30,7 +31,6 @@ const useFetch = <T,>(): TypeReturn<T> => {
       }
 
       const dataJSON = await response.json();
-      setData(dataJSON);
       return dataJSON;
     } catch (e) {
       setError("There is an issue with API petition");
@@ -40,7 +40,7 @@ const useFetch = <T,>(): TypeReturn<T> => {
     }
   };
 
-  return { data, loading, error, fetchApi };
+  return { loading, error, fetchApi };
 };
 
 export default useFetch;
