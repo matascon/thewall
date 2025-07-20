@@ -29,7 +29,6 @@ const useFetch = (): TypeReturn => {
         setError(true);
         throw new Error(`${response.status}: ${response.statusText}`);
       }
-
       const dataJSON = await response.json();
       return dataJSON;
     } catch (e) {

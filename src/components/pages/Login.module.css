@@ -52,6 +52,12 @@
   transition: color 300ms ease-in-out;
 }
 
+.registerError {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  color: #e76262;
+}
+
 @media (min-width: 1024px) {
   .loginFormButton:hover {
     border-color: #e76262;

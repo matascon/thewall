@@ -92,7 +92,7 @@ const Register = () => {
             });
             setTimeout(() => {
               setRedirect(true);
-            }, 2000);
+            }, 3000);
           } else {
             setErrorForm("There was a problem to register the user, try later");
           }
