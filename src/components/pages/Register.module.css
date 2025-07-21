@@ -3,6 +3,7 @@
   width: auto;
   display: flex;
   flex-direction: column;
+  padding: 0 2rem 0 2rem;
 }
 
 .registerH2 {
@@ -53,18 +54,18 @@
 }
 
 .registerError {
-  margin-top: 1rem;
+  margin: 0 0 0.75rem 0;
   font-size: 1.25rem;
   color: #e76262;
 }
 
 .registerSuccess {
-  margin-top: 1rem;
+  margin: 0 0 0.75rem 0;
   font-size: 1.25rem;
   color: #4cda20;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .registerFormButton:hover {
     border-color: #e76262;
     color: #e76262;
@@ -72,5 +73,41 @@
 
   .registerNavLink:hover {
     color: #e76262;
+  }
+}
+
+@media (max-width: 1024px) {
+  .registerNavLink {
+    color: #e76262;
+  }
+}
+
+@media (max-width: 750px) {
+  .registerH2 {
+    font-size: 1.75rem;
+  }
+
+  .registerFormLabel {
+    font-size: 1.25rem;
+  }
+
+  .registerFormInput {
+    font-size: 1rem;
+  }
+
+  .registerFormButton {
+    font-size: 1.25rem;
+  }
+
+  .registerNavLink {
+    font-size: 1rem;
+  }
+
+  .registerError {
+    font-size: 1rem;
+  }
+
+  .registerSuccess {
+    font-size: 1rem;
   }
 }

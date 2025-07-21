@@ -10,3 +10,9 @@
   font-size: 3rem;
   color: #e76262;
 }
+
+@media (max-width: 750px) {
+  .titleH1 {
+    font-size: 2.5rem;
+  }
+}

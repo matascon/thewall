@@ -3,6 +3,7 @@
   width: auto;
   display: flex;
   flex-direction: column;
+  padding: 0 2rem 0 2rem;
 }
 
 .loginH2 {
@@ -53,12 +54,12 @@
 }
 
 .registerError {
-  margin-top: 1rem;
+  margin: 0 0 0.75rem 0;
   font-size: 1.25rem;
   color: #e76262;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1025px) {
   .loginFormButton:hover {
     border-color: #e76262;
     color: #e76262;
@@ -66,5 +67,37 @@
 
   .loginNavLink:hover {
     color: #e76262;
+  }
+}
+
+@media (max-width: 1024px) {
+  .loginNavLink {
+    color: #e76262;
+  }
+}
+
+@media (max-width: 750px) {
+  .loginH2 {
+    font-size: 1.75rem;
+  }
+
+  .loginFormLabel {
+    font-size: 1.25rem;
+  }
+
+  .loginFormInput {
+    font-size: 1rem;
+  }
+
+  .loginFormButton {
+    font-size: 1.25rem;
+  }
+
+  .loginNavLink {
+    font-size: 1rem;
+  }
+
+  .registerError {
+    font-size: 1rem;
   }
 }

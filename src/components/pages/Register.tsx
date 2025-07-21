@@ -152,6 +152,12 @@ const Register = () => {
             value={registerData.passwd}
             onChange={handleChange}
           />
+          {errorForm && (
+            <p className={stylesRegister.registerError}>{errorForm}</p>
+          )}
+          {successForm && (
+            <p className={stylesRegister.registerSuccess}>{successForm}</p>
+          )}
           <button
             type="submit"
             className={stylesRegister.registerFormButton}
@@ -160,12 +166,6 @@ const Register = () => {
             Register
           </button>
         </form>
-        {errorForm && (
-          <p className={stylesRegister.registerError}>{errorForm}</p>
-        )}
-        {successForm && (
-          <p className={stylesRegister.registerSuccess}>{successForm}</p>
-        )}
         {redirect && <Navigate to="/" />}
         <NavLink to="/" className={stylesRegister.registerNavLink}>
           If you are registered access to TheWall

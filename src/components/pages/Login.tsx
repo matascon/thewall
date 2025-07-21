@@ -101,7 +101,7 @@ const Login = ({ handleLogged }: Props) => {
         <h2 className={stylesLogin.loginH2}>Login</h2>
         <form className={stylesLogin.loginForm} onSubmit={handleSubmit}>
           <label htmlFor="userName" className={stylesLogin.loginFormLabel}>
-            Name
+            User Name
           </label>
           <input
             className={stylesLogin.loginFormInput}
@@ -124,11 +124,13 @@ const Login = ({ handleLogged }: Props) => {
             value={userDataInput.passwd}
             onChange={handleChange}
           />
+          {errorForm && (
+            <p className={stylesLogin.registerError}>{errorForm}</p>
+          )}
           <button className={stylesLogin.loginFormButton} disabled={loading}>
             {!loading ? "Login" : "..."}
           </button>
         </form>
-        {errorForm && <p className={stylesLogin.registerError}>{errorForm}</p>}
         <NavLink to="/Register" className={stylesLogin.loginNavLink}>
           Do not you have an account?, create it
         </NavLink>
