@@ -9,3 +9,5 @@ const stompClient = new Client({
     console.log("Connected to WebSocket");
   },
 });
+
+export default stompClient;
