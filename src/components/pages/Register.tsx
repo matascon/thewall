@@ -3,7 +3,7 @@ import stylesForm from "./Form.module.css";
 import { Navigate, NavLink } from "react-router-dom";
 import { Title } from "../title";
 import { useState } from "react";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 
 interface RegisterData {
   userName: string;
@@ -35,7 +35,10 @@ const validateUser: ValidateUser = async (fetchApi, userName) => {
     body: JSON.stringify(userNameToValidate),
   });
 
-  return result ? true : false;
+  if (result && typeof result === "object" && "userName" in result) {
+    return (result as { userName: string }).userName ? true : false;
+  }
+  return false;
 };
 
 const registerUser: RegisterUser = async (fetchApi, registerData) => {
@@ -79,7 +82,7 @@ const Register = () => {
       setErrorForm(null);
       const userExist = await validateUser(fetchApi, registerData.userName);
       if (error) {
-        setErrorForm("There was a problem to register the user, try later");
+        setErrorForm("There was a problem to register, try later");
       } else {
         if (!userExist) {
           const registerResult = await registerUser(fetchApi, registerData);
@@ -94,7 +97,7 @@ const Register = () => {
               setRedirect(true);
             }, 3000);
           } else {
-            setErrorForm("There was a problem to register the user, try later");
+            setErrorForm("There was a problem to register, try later");
           }
         } else {
           successForm && setSuccessForm(null);

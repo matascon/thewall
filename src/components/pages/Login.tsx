@@ -3,14 +3,14 @@ import stylesForm from "./Form.module.css";
 import { NavLink } from "react-router-dom";
 import { Title } from "../title";
 import { useState } from "react";
-import useFetch from "../hooks/useFetch";
+import useFetch from "../../hooks/useFetch";
 
 interface UserData {
   userName: string;
   passwd: string;
 }
 
-type Props = {
+type PropsLogin = {
   handleLogged: (
     valueLogged: boolean,
     userName: string,
@@ -38,7 +38,10 @@ const validateUser: ValidateUser = async (fetchApi, userName) => {
     body: JSON.stringify(userNameToValidate),
   });
 
-  return result ? true : false;
+  if (result && typeof result === "object" && "userName" in result) {
+    return (result as { userName: string | null }).userName ? true : false;
+  }
+  return false;
 };
 
 const loginUser: LoginUser = async (fetchApi, userData) => {
@@ -50,11 +53,25 @@ const loginUser: LoginUser = async (fetchApi, userData) => {
     body: JSON.stringify(userData),
   });
 
-  return result ? true : false;
+  if (
+    result &&
+    typeof result === "object" &&
+    "userName" in result &&
+    "passwd" in result
+  ) {
+    if (
+      (result as { userName: string | null }).userName &&
+      (result as { passwd: string | null }).passwd
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 };
 
-const Login = ({ handleLogged }: Props) => {
-  const [userDataInput, setuserDataInput] = useState<UserData>({
+const Login = ({ handleLogged }: PropsLogin) => {
+  const [userDataInput, setUserDataInput] = useState<UserData>({
     userName: "",
     passwd: "",
   });
@@ -64,7 +81,7 @@ const Login = ({ handleLogged }: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setuserDataInput((prev: UserData) => ({ ...prev, [name]: value }));
+    setUserDataInput((prev: UserData) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -74,12 +91,12 @@ const Login = ({ handleLogged }: Props) => {
     if (userDataInput.userName && userDataInput.passwd) {
       const result = await validateUser(fetchApi, userDataInput.userName);
       if (error) {
-        setErrorForm("There was a problem to login the user, try later");
+        setErrorForm("There was a problem to login, try later");
       } else {
         if (result) {
           const result = await loginUser(fetchApi, userDataInput);
           if (error) {
-            setErrorForm("There was a problem to login the user, try later");
+            setErrorForm("There was a problem to login, try later");
           } else {
             result
               ? handleLogged(true, userDataInput.userName, userDataInput.passwd)
