@@ -18,7 +18,7 @@ const Post = () => {
     userName: userName,
   });
   const [errorForm, setErrorForm] = useState<boolean>(false);
-  const { fetchApi, loading, error } = useFetch();
+  const { fetchApi, loading } = useFetch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
