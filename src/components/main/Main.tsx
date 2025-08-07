@@ -1,4 +1,4 @@
-import { use, useContext, useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { PostForm } from "../postForm";
 import { PostList } from "../postList";
 import useFetch from "../../hooks/useFetch";
@@ -12,22 +12,62 @@ interface Posts {
 }
 
 const Main = () => {
-  const [posts, setPosts] = useState<Posts[] | null>(null);
+  const [posts, setPosts] = useState<Posts[]>([]);
+  const numberPostsPrinted = useRef<number>(0);
+  const hasFetchedRef = useRef<boolean>(false);
+  const existMorePosts = useRef<boolean>(true);
   const { fetchApi } = useFetch();
 
+  const getPosts = async () => {
+    const response = await fetchApi(
+      `http://localhost:8079/api/post/getPosts/${numberPostsPrinted.current}`
+    );
+    if (Array.isArray(response) && !numberPostsPrinted.current) {
+      setPosts(response as Posts[]);
+      numberPostsPrinted.current += response.length;
+      if (Array.isArray(response) && response.length < 5) {
+        existMorePosts.current = false;
+      }
+    }
+    return response;
+  };
+
   useEffect(() => {
-    const getPosts = async () => {
-      const response = await fetchApi(
-        "http://localhost:8079/api/post/getPosts"
-      );
-      if (Array.isArray(response)) {
-        setPosts(response as Posts[]);
-      } else {
-        setPosts(null);
+    const handleScroll = async () => {
+      const limit = 100;
+      const scrollPosition = window.scrollY + window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if (documentHeight - scrollPosition <= limit && !hasFetchedRef.current) {
+        if (existMorePosts.current) {
+          hasFetchedRef.current = true;
+          const response = await getPosts();
+          if (Array.isArray(response)) {
+            numberPostsPrinted.current += response.length;
+          }
+
+          setPosts((prev) => {
+            if (response && Array.isArray(response)) {
+              return [...prev, ...response];
+            }
+            return prev;
+          });
+          if (Array.isArray(response) && response.length < 5) {
+            existMorePosts.current = false;
+          }
+          console.log(numberPostsPrinted);
+          console.log(response);
+        }
+      } else if (documentHeight - scrollPosition > limit && hasFetchedRef) {
+        hasFetchedRef.current = false;
       }
     };
 
     getPosts();
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (

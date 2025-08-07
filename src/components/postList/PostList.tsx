@@ -1,4 +1,4 @@
-import "./PostList.module.css";
+import postList from "./PostList.module.css";
 import useWebSocket from "../../hooks/useWebSocket";
 
 interface Posts {
@@ -10,8 +10,8 @@ interface Posts {
 }
 
 type PostListProps = {
-  posts: Posts[] | null;
-  setPosts: React.Dispatch<React.SetStateAction<Posts[] | null>>;
+  posts: Posts[];
+  setPosts: React.Dispatch<React.SetStateAction<Posts[]>>;
 };
 
 type HandleNewPost = (newPost: {
@@ -31,7 +31,7 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
   useWebSocket(handleNewPost);
 
   return (
-    <ul>
+    <ul className={postList.postList}>
       {posts?.map((post) => (
         <li key={post.id}>
           <h2>{post.userName}</h2>

@@ -42,13 +42,7 @@ const Core = () => {
       <Routes>
         <Route
           path="/"
-          element={
-            !logged ? (
-              <Login handleLogged={handleLogged} />
-            ) : (
-              <Wall userName={userData.userName} />
-            )
-          }
+          element={!logged ? <Login handleLogged={handleLogged} /> : <Wall />}
         />
         <Route path="/Register" element={<Register />} />
       </Routes>
