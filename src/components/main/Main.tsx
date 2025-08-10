@@ -8,6 +8,7 @@ interface Posts {
   title: string;
   content: string;
   createdAt: string;
+  fileUrl: string;
   userName: string;
 }
 
@@ -22,6 +23,7 @@ const Main = () => {
     const response = await fetchApi(
       `http://localhost:8079/api/post/getPosts/${numberPostsPrinted.current}`
     );
+    console.log(response);
     if (Array.isArray(response) && !numberPostsPrinted.current) {
       setPosts(response as Posts[]);
       numberPostsPrinted.current += response.length;
@@ -55,8 +57,6 @@ const Main = () => {
           if (Array.isArray(response) && response.length < 5) {
             existMorePosts.current = false;
           }
-          console.log(numberPostsPrinted);
-          console.log(response);
         }
       } else if (documentHeight - scrollPosition > limit && hasFetchedRef) {
         hasFetchedRef.current = false;
@@ -72,7 +72,7 @@ const Main = () => {
 
   return (
     <main>
-      <PostForm />
+      <PostForm numberPostPrinted={numberPostsPrinted} />
       <PostList posts={posts} setPosts={setPosts} />
     </main>
   );

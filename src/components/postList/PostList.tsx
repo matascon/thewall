@@ -6,6 +6,7 @@ interface Posts {
   title: string;
   content: string;
   createdAt: string;
+  fileUrl: string;
   userName: string;
 }
 
@@ -19,6 +20,7 @@ type HandleNewPost = (newPost: {
   title: string;
   content: string;
   createdAt: string;
+  fileUrl: string;
   userName: string;
 }) => void;
 
@@ -34,9 +36,13 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
     <ul className={postList.postList}>
       {posts?.map((post) => (
         <li key={post.id}>
+          <p>{post.id}</p>
           <h2>{post.userName}</h2>
           <h3>{post.title}</h3>
           <p>{post.content}</p>
+          {post.fileUrl && (
+            <img src={post.fileUrl} width="300px" height="300px" />
+          )}
           <p>{post.createdAt}</p>
         </li>
       ))}

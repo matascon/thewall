@@ -8,6 +8,7 @@ interface Post {
   title: string;
   content: string;
   createdAt: string;
+  fileUrl: string;
   userName: string;
 }
 
