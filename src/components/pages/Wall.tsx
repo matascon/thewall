@@ -1,8 +1,21 @@
-import styles from "./Wall.module.css";
+import { Nav } from "../nav";
 import { Main } from "../main";
 
-const Wall = () => {
-  return <Main />;
+type PropsWall = {
+  handleLogged: (
+    valueLogged: boolean,
+    userName: string,
+    passwd: string
+  ) => void;
+};
+
+const Wall = ({ handleLogged }: PropsWall) => {
+  return (
+    <>
+      <Nav handleLogged={handleLogged} />
+      <Main />
+    </>
+  );
 };
 
 export default Wall;

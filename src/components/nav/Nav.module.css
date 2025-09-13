@@ -1,0 +1,38 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 2rem 0;
+  padding: 1rem 5rem 1rem 5rem;
+  border-bottom: 1px solid #fff;
+}
+
+.navDiv {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.navDivH2 {
+  font-size: 1.75rem;
+  color: #e76262;
+}
+
+.navDivButton {
+  font-size: 1.15rem;
+  font-weight: 600;
+  padding: 0.2rem 1rem 0.2rem 1rem;
+  color: #fff;
+  cursor: pointer;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  background-color: #000;
+  transition: all 300ms ease-in-out;
+}
+
+@media (min-width: 1025px) {
+  .navDivButton:hover {
+    color: #e76262;
+    border-color: #e76262;
+  }
+}

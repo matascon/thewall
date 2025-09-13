@@ -25,7 +25,6 @@ const useWebSocket = (newPost: NewPost) => {
       reconnectDelay: 3000,
       onConnect: () => {
         console.log("✅ Conectado al WebSocket");
-
         client.subscribe("/topic/posts", (message: IMessage) => {
           const post = JSON.parse(message.body);
           newPost(post);

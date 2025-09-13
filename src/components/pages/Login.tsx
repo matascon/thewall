@@ -141,9 +141,7 @@ const Login = ({ handleLogged }: PropsLogin) => {
             value={userDataInput.passwd}
             onChange={handleChange}
           />
-          {errorForm && (
-            <p className={stylesLogin.registerError}>{errorForm}</p>
-          )}
+          {errorForm && <p className={stylesLogin.loginError}>{errorForm}</p>}
           <button className={stylesLogin.loginFormButton} disabled={loading}>
             {!loading ? "Login" : "..."}
           </button>

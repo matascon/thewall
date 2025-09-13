@@ -1,4 +1,4 @@
-import postList from "./PostList.module.css";
+import styles from "./PostList.module.css";
 import useWebSocket from "../../hooks/useWebSocket";
 
 interface Posts {
@@ -15,6 +15,8 @@ type PostListProps = {
   setPosts: React.Dispatch<React.SetStateAction<Posts[]>>;
 };
 
+type FactorizeDateTime = (dateTime: string) => string;
+
 type HandleNewPost = (newPost: {
   id: number;
   title: string;
@@ -25,6 +27,12 @@ type HandleNewPost = (newPost: {
 }) => void;
 
 const PostList = ({ posts, setPosts }: PostListProps) => {
+  const factorizeDateTime: FactorizeDateTime = (dateTime) => {
+    const newDateTime = dateTime.slice(0, 10) + " at " + dateTime.slice(11, 19);
+
+    return newDateTime;
+  };
+
   const handleNewPost: HandleNewPost = (newPost) => {
     console.log("🆕 Nuevo post recibido", newPost);
     setPosts((prev) => [newPost, ...(prev ?? [])]);
@@ -33,17 +41,23 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
   useWebSocket(handleNewPost);
 
   return (
-    <ul className={postList.postList}>
+    <ul className={styles.postList}>
       {posts?.map((post) => (
-        <li key={post.id}>
-          <p>{post.id}</p>
-          <h2>{post.userName}</h2>
-          <h3>{post.title}</h3>
-          <p>{post.content}</p>
+        <li key={post.id} className={styles.postListLi}>
+          {/* <p>{post.id}</p> */}
+          <h2 className={styles.postListH2}>{post.userName}</h2>
+          <h3 className={styles.postListH3}>{post.title}</h3>
+          <p className={styles.postListP}>{post.content}</p>
           {post.fileUrl && (
-            <img src={post.fileUrl} width="300px" height="300px" />
+            <>
+              <div className={styles.postListDiv}>
+                <img className={styles.postListDivImg} src={post.fileUrl} />
+              </div>
+            </>
           )}
-          <p>{post.createdAt}</p>
+          <p className={styles.postListP}>
+            {factorizeDateTime(post.createdAt)}
+          </p>
         </li>
       ))}
     </ul>

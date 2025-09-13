@@ -42,7 +42,13 @@ const Core = () => {
       <Routes>
         <Route
           path="/"
-          element={!logged ? <Login handleLogged={handleLogged} /> : <Wall />}
+          element={
+            !logged ? (
+              <Login handleLogged={handleLogged} />
+            ) : (
+              <Wall handleLogged={handleLogged} />
+            )
+          }
         />
         <Route path="/Register" element={<Register />} />
       </Routes>

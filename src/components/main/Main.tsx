@@ -1,3 +1,4 @@
+import styles from "./Main.module.css";
 import { useEffect, useRef, useState } from "react";
 import { PostForm } from "../postForm";
 import { PostList } from "../postList";
@@ -71,7 +72,7 @@ const Main = () => {
   }, []);
 
   return (
-    <main>
+    <main className={styles.main}>
       <PostForm numberPostPrinted={numberPostsPrinted} />
       <PostList posts={posts} setPosts={setPosts} />
     </main>
