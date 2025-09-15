@@ -14,7 +14,7 @@ interface Post {
 
 type NewPost = (post: Post) => void;
 
-const useWebSocket = (newPost: NewPost) => {
+const useWebSocketPosts = (newPost: NewPost) => {
   const clientRef = useRef<Client | null>(null);
 
   useEffect(() => {
@@ -24,7 +24,6 @@ const useWebSocket = (newPost: NewPost) => {
       debug: (str) => console.log(str),
       reconnectDelay: 3000,
       onConnect: () => {
-        console.log("✅ Conectado al WebSocket");
         client.subscribe("/topic/posts", (message: IMessage) => {
           const post = JSON.parse(message.body);
           newPost(post);
@@ -41,4 +40,4 @@ const useWebSocket = (newPost: NewPost) => {
   }, []);
 };
 
-export default useWebSocket;
+export default useWebSocketPosts;

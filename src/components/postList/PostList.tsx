@@ -1,5 +1,6 @@
 import styles from "./PostList.module.css";
-import useWebSocket from "../../hooks/useWebSocket";
+import useWebSocketPosts from "../../hooks/useWebSocketPosts";
+import { useState } from "react";
 
 interface Posts {
   id: number;
@@ -27,10 +28,16 @@ type HandleNewPost = (newPost: {
 }) => void;
 
 const PostList = ({ posts, setPosts }: PostListProps) => {
+  const [commentsSection, setCommensSection] = useState<boolean>(false);
+
   const factorizeDateTime: FactorizeDateTime = (dateTime) => {
     const newDateTime = dateTime.slice(0, 10) + " at " + dateTime.slice(11, 19);
 
     return newDateTime;
+  };
+
+  const displayComments = () => {
+    setCommensSection(true);
   };
 
   const handleNewPost: HandleNewPost = (newPost) => {
@@ -38,7 +45,7 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
     setPosts((prev) => [newPost, ...(prev ?? [])]);
   };
 
-  useWebSocket(handleNewPost);
+  useWebSocketPosts(handleNewPost);
 
   return (
     <ul className={styles.postList}>
@@ -58,6 +65,8 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
           <p className={styles.postListP}>
             {factorizeDateTime(post.createdAt)}
           </p>
+          <button onClick={displayComments}>Comments</button>
+          {commentsSection && <Comments />}
         </li>
       ))}
     </ul>
