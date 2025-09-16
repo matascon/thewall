@@ -24,7 +24,6 @@ const Main = () => {
     const response = await fetchApi(
       `http://localhost:8079/api/post/getPosts/${numberPostsPrinted.current}`
     );
-    console.log(response);
     if (Array.isArray(response) && !numberPostsPrinted.current) {
       setPosts(response as Posts[]);
       numberPostsPrinted.current += response.length;

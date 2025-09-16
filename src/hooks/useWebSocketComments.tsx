@@ -3,18 +3,15 @@ import { Client } from "@stomp/stompjs";
 import type { IMessage } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
 
-interface Post {
+interface Comment {
   id: number;
-  title: string;
   content: string;
-  createdAt: string;
-  fileUrl: string;
   userName: string;
 }
 
-type NewPost = (post: Post) => void;
+type NewComment = (comment: Comment) => void;
 
-const useWebSocketComments = (newPost: NewPost) => {
+const useWebSocketComments = (newComment: NewComment, postId: number) => {
   const clientRef = useRef<Client | null>(null);
 
   useEffect(() => {
@@ -24,9 +21,9 @@ const useWebSocketComments = (newPost: NewPost) => {
       debug: (str) => console.log(str),
       reconnectDelay: 3000,
       onConnect: () => {
-        client.subscribe("/topic/posts", (message: IMessage) => {
-          const post = JSON.parse(message.body);
-          newPost(post);
+        client.subscribe("/topic/comments/" + postId, (message: IMessage) => {
+          const comment = JSON.parse(message.body);
+          newComment(comment);
         });
       },
     });

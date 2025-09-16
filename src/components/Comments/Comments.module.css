@@ -1,0 +1,9 @@
+.comments {
+  position: relative;
+  background-color: bisque;
+  color: black;
+  height: auto;
+  max-height: 600px;
+  width: 100%;
+  overflow-y: scroll;
+}

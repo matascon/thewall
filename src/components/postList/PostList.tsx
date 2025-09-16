@@ -1,6 +1,7 @@
 import styles from "./PostList.module.css";
 import useWebSocketPosts from "../../hooks/useWebSocketPosts";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { Comments } from "../Comments";
 
 interface Posts {
   id: number;
@@ -28,7 +29,7 @@ type HandleNewPost = (newPost: {
 }) => void;
 
 const PostList = ({ posts, setPosts }: PostListProps) => {
-  const [commentsSection, setCommensSection] = useState<boolean>(false);
+  const [commentsSection, setCommensSection] = useState<number | null>(null);
 
   const factorizeDateTime: FactorizeDateTime = (dateTime) => {
     const newDateTime = dateTime.slice(0, 10) + " at " + dateTime.slice(11, 19);
@@ -36,12 +37,11 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
     return newDateTime;
   };
 
-  const displayComments = () => {
-    setCommensSection(true);
+  const displayComments = (postId: number) => {
+    setCommensSection(postId);
   };
 
   const handleNewPost: HandleNewPost = (newPost) => {
-    console.log("🆕 Nuevo post recibido", newPost);
     setPosts((prev) => [newPost, ...(prev ?? [])]);
   };
 
@@ -65,8 +65,12 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
           <p className={styles.postListP}>
             {factorizeDateTime(post.createdAt)}
           </p>
-          <button onClick={displayComments}>Comments</button>
-          {commentsSection && <Comments />}
+          {commentsSection !== post.id && (
+            <button onClick={() => displayComments(post.id)}>Comments</button>
+          )}
+          {commentsSection === post.id && (
+            <Comments postId={post.id} setCommentsSection={setCommensSection} />
+          )}
         </li>
       ))}
     </ul>
