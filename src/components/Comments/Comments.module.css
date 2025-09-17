@@ -1,9 +1,36 @@
 .comments {
-  position: relative;
-  background-color: bisque;
-  color: black;
+  width: 100%;
   height: auto;
   max-height: 600px;
-  width: 100%;
   overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: #0a0a0a #1f1f1f;
+  scroll-behavior: smooth;
+}
+
+.commentsButton {
+  cursor: pointer;
+  margin: 0.75rem 0 1rem 0;
+  padding: 0.5rem;
+  background-color: #000;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 300ms ease-in-out;
+}
+
+@media (min-width: 1025px) {
+  .commentsButton:hover {
+    border-color: #e76262;
+    color: #e76262;
+  }
+}
+
+@media (max-width: 1024px) {
+  .commentsButton {
+    border-color: #e76262;
+    color: #e76262;
+  }
 }

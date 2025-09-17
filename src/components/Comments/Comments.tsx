@@ -32,11 +32,13 @@ const Comments = ({ postId, setCommentsSection }: PropComments) => {
     };
 
     getComments();
-  }, [postId]);
+  }, []);
 
   return (
     <div className={styles.comments}>
-      <button onClick={closeComments}>Close</button>
+      <button className={styles.commentsButton} onClick={closeComments}>
+        Close
+      </button>
       <CommentForm postId={postId} />
       <CommentList
         comments={comments}

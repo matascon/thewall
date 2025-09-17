@@ -1,6 +1,6 @@
 import styles from "./PostList.module.css";
 import useWebSocketPosts from "../../hooks/useWebSocketPosts";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Comments } from "../Comments";
 
 interface Posts {
@@ -51,7 +51,6 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
     <ul className={styles.postList}>
       {posts?.map((post) => (
         <li key={post.id} className={styles.postListLi}>
-          {/* <p>{post.id}</p> */}
           <h2 className={styles.postListH2}>{post.userName}</h2>
           <h3 className={styles.postListH3}>{post.title}</h3>
           <p className={styles.postListP}>{post.content}</p>
@@ -66,7 +65,12 @@ const PostList = ({ posts, setPosts }: PostListProps) => {
             {factorizeDateTime(post.createdAt)}
           </p>
           {commentsSection !== post.id && (
-            <button onClick={() => displayComments(post.id)}>Comments</button>
+            <button
+              className={styles.postListButton}
+              onClick={() => displayComments(post.id)}
+            >
+              Comments
+            </button>
           )}
           {commentsSection === post.id && (
             <Comments postId={post.id} setCommentsSection={setCommensSection} />

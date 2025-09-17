@@ -27,11 +27,11 @@ const CommentList = ({ comments, setComments, postId }: CommentListProps) => {
   useWebSocketComments(handleNewComment, postId);
 
   return (
-    <ul>
+    <ul className={styles.commentList}>
       {comments?.map((comment) => (
         <li key={comment.id}>
-          <h3>{comment.userName}</h3>
-          <p>{comment.content}</p>
+          <h3 className={styles.commentListH3}>{comment.userName}</h3>
+          <p className={styles.commentListP}>{comment.content}</p>
         </li>
       ))}
     </ul>

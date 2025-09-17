@@ -1,0 +1,17 @@
+.commentList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.commentListH3 {
+  font-size: 1.25rem;
+  color: #e76262;
+}
+
+.commentListP {
+  font-size: 1.15rem;
+  font-weight: 600;
+}

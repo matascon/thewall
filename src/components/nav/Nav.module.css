@@ -14,8 +14,8 @@
 }
 
 .navDivH2 {
-  font-size: 1.75rem;
-  color: #e76262;
+  font-size: 2rem;
+  color: #fff;
 }
 
 .navDivButton {
@@ -34,5 +34,28 @@
   .navDivButton:hover {
     color: #e76262;
     border-color: #e76262;
+  }
+}
+
+@media (max-width: 1024px) {
+  .navDivButton {
+    color: #e76262;
+    border-color: #e76262;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+
+  .navDivH2 {
+    font-size: 1.75rem;
+  }
+
+  .navDivButton {
+    font-size: 1.1rem;
   }
 }

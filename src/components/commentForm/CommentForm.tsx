@@ -1,6 +1,6 @@
+import styles from "./CommentForm.module.css";
 import { UserNameContext } from "../../context/userNameContext";
 import useFetch from "../../hooks/useFetch";
-import styles from "./CommentForm.module.css";
 import { useContext, useState, useRef } from "react";
 
 interface CommentFormData {
@@ -49,20 +49,28 @@ const CommentForm = ({ postId }: PropsCommentForm) => {
         },
         body: JSON.stringify(commentFormData),
       });
+      setCommentFormData((prev: CommentFormData) => ({
+        ...prev,
+        content: "",
+      }));
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.commentForm} onSubmit={handleSubmit}>
       <textarea
         name="content"
         placeholder="Type a new comment"
         autoComplete="off"
+        value={commentFormData.content}
         onChange={handleChangeTextArea}
         ref={textAreaCommentRef}
         wrap="soft"
+        className={styles.commentFormTextArea}
       />
-      <button type="submit">Send</button>
+      <button className={styles.commentFormButton} type="submit">
+        Send
+      </button>
     </form>
   );
 };

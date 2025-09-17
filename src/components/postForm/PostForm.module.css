@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 40%;
+  width: 45%;
   height: auto;
   border-bottom: 1px solid #fff;
 }
@@ -115,9 +115,59 @@
   }
 }
 
+@media (max-width: 1580px) {
+  .post {
+    width: 50%;
+  }
+}
+
+@media (max-width: 1300px) {
+  .post {
+    width: 65%;
+  }
+}
+
 @media (max-width: 1024px) {
+  .post {
+    width: 75%;
+  }
+
   .postFormInputFile {
     color: #e76262;
     border-color: #e76262;
+  }
+
+  .postFormButton {
+    border-color: #e76262;
+    color: #e76262;
+  }
+}
+
+@media (max-width: 820px) {
+  .post {
+    width: 90%;
+  }
+}
+
+@media (max-width: 767px) {
+  .postFormH2 {
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .postFormLabel {
+    font-size: 1.25rem;
+  }
+
+  .postFormInput {
+    font-size: 1.15rem;
+  }
+
+  .postFormTextArea {
+    font-size: 1.15rem;
+  }
+
+  .postFormButton {
+    font-size: 1.25rem;
   }
 }
