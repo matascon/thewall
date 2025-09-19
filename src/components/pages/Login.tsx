@@ -30,7 +30,7 @@ const validateUser: ValidateUser = async (fetchApi, userName) => {
     userName: userName,
   };
 
-  const result = await fetchApi("http://localhost:8079/api/user/validateUser", {
+  const result = await fetchApi("http://backend:8079/api/user/validateUser", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +45,7 @@ const validateUser: ValidateUser = async (fetchApi, userName) => {
 };
 
 const loginUser: LoginUser = async (fetchApi, userData) => {
-  const result = await fetchApi("http://localhost:8079/api/user/loginUser", {
+  const result = await fetchApi("http://backend:8079/api/user/loginUser", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

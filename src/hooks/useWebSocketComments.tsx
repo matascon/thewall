@@ -15,7 +15,7 @@ const useWebSocketComments = (newComment: NewComment, postId: number) => {
   const clientRef = useRef<Client | null>(null);
 
   useEffect(() => {
-    const socket = new SockJS("http://localhost:8079/ws");
+    const socket = new SockJS("http://backend:8079/ws");
     const client = new Client({
       webSocketFactory: () => socket,
       debug: (str) => console.log(str),

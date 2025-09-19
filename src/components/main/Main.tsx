@@ -22,7 +22,7 @@ const Main = () => {
 
   const getPosts = async () => {
     const response = await fetchApi(
-      `http://localhost:8079/api/post/getPosts/${numberPostsPrinted.current}`
+      `http://backend:8079/api/post/getPosts/${numberPostsPrinted.current}`
     );
     if (Array.isArray(response) && !numberPostsPrinted.current) {
       setPosts(response as Posts[]);

@@ -42,7 +42,7 @@ const CommentForm = ({ postId }: PropsCommentForm) => {
 
     console.log(commentFormData.content);
     if (commentFormData.content) {
-      await fetchApi("http://localhost:8079/api/comment/createComment", {
+      await fetchApi("http://backend:8079/api/comment/createComment", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
