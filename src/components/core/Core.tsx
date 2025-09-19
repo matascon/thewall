@@ -16,7 +16,7 @@ const Core = () => {
   //  |
   //  |
   //  V
-  const [userData, setUserData] = useState<UserData>({
+  const [_userData, setUserData] = useState<UserData>({
     userName: "",
     passwd: "",
   });
