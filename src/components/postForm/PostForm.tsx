@@ -160,7 +160,7 @@ const PostForm = ({ numberPostPrinted }: PostFormProps) => {
         )}
         {errorImg.current && (
           <p className={styles.postFormP}>
-            File must be a JPG, JPEG or PNG extension
+            File must be a JPG, JPEG, PNG or WEBP extension
           </p>
         )}
         <button
