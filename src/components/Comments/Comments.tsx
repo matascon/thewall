@@ -25,9 +25,7 @@ const Comments = ({ postId, setCommentsSection }: PropComments) => {
 
   useEffect(() => {
     const getComments = async () => {
-      const response = await fetchApi(
-        `http://backend:8079/api/comment/getComments/${postId}`
-      );
+      const response = await fetchApi(`/api/comment/getComments/${postId}`);
       setComments(response as Comments[]);
     };
 

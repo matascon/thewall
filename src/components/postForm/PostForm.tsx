@@ -69,13 +69,10 @@ const PostForm = ({ numberPostPrinted }: PostFormProps) => {
       if (fileImg) {
         const fileData = new FormData();
         fileData.append("file", fileImg);
-        const response = await fetchApi(
-          "http://backend:8079/api/post/uploadImage",
-          {
-            method: "POST",
-            body: fileData,
-          }
-        );
+        const response = await fetchApi("/api/post/uploadImage", {
+          method: "POST",
+          body: fileData,
+        });
         if (response && typeof response === "object" && "fileUrl" in response) {
           fileUrlRef.current = (response as { fileUrl: string }).fileUrl;
         }
@@ -84,7 +81,7 @@ const PostForm = ({ numberPostPrinted }: PostFormProps) => {
         }
       }
       if (!errorImg.current) {
-        await fetchApi("http://backend:8079/api/post/createPost", {
+        await fetchApi("/api/post/createPost", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

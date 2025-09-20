@@ -27,7 +27,7 @@ const validateUser: ValidateUser = async (fetchApi, userName) => {
     userName: userName,
   };
 
-  const result = await fetchApi("http://backend:8079/api/user/validateUser", {
+  const result = await fetchApi("/api/user/validateUser", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const registerUser: RegisterUser = async (fetchApi, registerData) => {
     passwd: registerData.passwd,
   };
 
-  const result = await fetchApi("http://backend:8079/api/user/registerUser", {
+  const result = await fetchApi("/api/user/registerUser", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
