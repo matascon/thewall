@@ -88,7 +88,10 @@ const Login = ({ handleLogged }: PropsLogin) => {
     e.preventDefault();
     setErrorForm("");
 
-    if (userDataInput.userName && userDataInput.passwd) {
+    if (
+      userDataInput.userName.trim().length &&
+      userDataInput.passwd.trim().length
+    ) {
       const result = await validateUser(fetchApi, userDataInput.userName);
       if (error) {
         setErrorForm("There was a problem to login, try later");

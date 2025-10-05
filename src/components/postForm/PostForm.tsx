@@ -3,11 +3,13 @@ import type React from "react";
 import { useContext, useRef, useState } from "react";
 import { UserNameContext } from "../../context/userNameContext";
 import useFetch from "../../hooks/useFetch";
+import { PasswdContext } from "../../context/passwdContext";
 
 interface PostFormData {
   title: string;
   content: string;
   userName: string;
+  passwd: string;
 }
 
 interface PostFormProps {
@@ -16,10 +18,12 @@ interface PostFormProps {
 
 const PostForm = ({ numberPostPrinted }: PostFormProps) => {
   const { userName } = useContext(UserNameContext);
+  const { passwd } = useContext(PasswdContext);
   const [postFormData, setPostFormData] = useState<PostFormData>({
     title: "",
     content: "",
     userName: userName,
+    passwd: passwd,
   });
   const fileUrlRef = useRef<string>("");
   const [fileImg, setFileImg] = useState<File | null>(null);
@@ -65,7 +69,10 @@ const PostForm = ({ numberPostPrinted }: PostFormProps) => {
 
     setErrorForm(false);
     errorImg.current = false;
-    if (postFormData.title && postFormData.content) {
+    if (
+      postFormData.title.trim().length &&
+      postFormData.content.trim().length
+    ) {
       if (fileImg) {
         const fileData = new FormData();
         fileData.append("file", fileImg);
@@ -95,6 +102,7 @@ const PostForm = ({ numberPostPrinted }: PostFormProps) => {
           title: "",
           content: "",
           userName: userName,
+          passwd: passwd,
         });
         setFileImg(null);
         fileUrlRef.current = "";
