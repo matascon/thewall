@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login, Register, Wall } from "../pages";
 import { UserNameContext } from "../../context/userNameContext";
+import { PasswdContext } from "../../context/passwdContext";
 
 interface UserData {
   userName: string;
@@ -11,6 +12,7 @@ interface UserData {
 const Core = () => {
   const [logged, setLogged] = useState<boolean>(false);
   const { setUserName } = useContext(UserNameContext);
+  const { setPasswd } = useContext(PasswdContext);
 
   //1 Note
   //  |
@@ -28,6 +30,7 @@ const Core = () => {
   ) => {
     setLogged(valueLogged);
     setUserName(userNameInput);
+    setPasswd(passwdInput);
 
     //1 Note - Esto lo vamos a dejar de momento por si queremos añadir la funcionalidad en el futuro de inicio de sesión automatico
     //1 Note - We leave this at the moment due to in case we would like to add automatic login on future

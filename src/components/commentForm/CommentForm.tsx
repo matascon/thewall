@@ -2,10 +2,12 @@ import styles from "./CommentForm.module.css";
 import { UserNameContext } from "../../context/userNameContext";
 import useFetch from "../../hooks/useFetch";
 import { useContext, useState, useRef } from "react";
+import { PasswdContext } from "../../context/passwdContext";
 
 interface CommentFormData {
   content: string;
   userName: string;
+  passwd: string;
   postId: number;
 }
 
@@ -15,10 +17,12 @@ type PropsCommentForm = {
 
 const CommentForm = ({ postId }: PropsCommentForm) => {
   const { userName } = useContext(UserNameContext);
+  const { passwd } = useContext(PasswdContext);
   const textAreaCommentRef = useRef<HTMLTextAreaElement | null>(null);
   const [commentFormData, setCommentFormData] = useState<CommentFormData>({
     content: "",
     userName: userName,
+    passwd: passwd,
     postId: postId,
   });
   const { fetchApi } = useFetch();
@@ -40,8 +44,7 @@ const CommentForm = ({ postId }: PropsCommentForm) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(commentFormData.content);
-    if (commentFormData.content) {
+    if (commentFormData.content.trim().length) {
       await fetchApi("http://localhost:8079/api/comment/createComment", {
         method: "POST",
         headers: {

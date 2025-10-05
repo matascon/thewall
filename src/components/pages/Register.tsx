@@ -78,7 +78,11 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (registerData.userName && registerData.email && registerData.passwd) {
+    if (
+      registerData.userName.trim().length &&
+      registerData.email.trim().length &&
+      registerData.passwd.trim().length
+    ) {
       setErrorForm(null);
       const userExist = await validateUser(fetchApi, registerData.userName);
       if (error) {
